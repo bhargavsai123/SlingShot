@@ -38,7 +38,12 @@ function setup() {
   block18 = new Block(400, 80);
   block19 = new Block(450, 80);
 
-  ball = Bodies.circle(100, 200, 20);
+  ball = Bodies.circle(100, 200, 20, {
+    friction: 0,
+    frictionAir: 0,
+    restitution: 1,
+    chamfer: 1,
+  });
   World.add(world, ball);
 
   anchor = { x: 100, y: 200 };
@@ -46,7 +51,17 @@ function setup() {
   sling = new Slingshot(this.ball, anchor);
   World.add(world, sling);
 }
-
+function mouseDragged() {
+  Body.setPosition(ball, { x: mouseX, y: mouseY });
+}
+function mouseReleased() {
+  sling.fly();
+}
+function keyPressed() {
+  if (keyCode === 32) {
+    sling.attach(this.ball);
+  }
+}
 function draw() {
   background("#333333");
 
@@ -100,10 +115,4 @@ function draw() {
   ellipse(ball.position.x, ball.position.y, 20);
   sling.display();
   drawSprites();
-}
-function mouseDragged() {
-  Body.setPosition(ball, { x: mouseX, y: mouseY });
-}
-function mouseReleased() {
-  sling.fly();
 }
