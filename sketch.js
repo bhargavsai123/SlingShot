@@ -1,8 +1,9 @@
-const { Engine, World, Bodies, Constraint } = Matter;
+const { Engine, World, Body, Bodies, Constraint } = Matter;
 
 var engine, world;
 var ground, surface1, surface2, surface3;
 var block1, block2, block3, block4, block5;
+var ball, anchor, sling;
 
 function setup() {
   createCanvas(800, 400);
@@ -36,7 +37,16 @@ function setup() {
   block17 = new Block(675, 40);
   block18 = new Block(400, 80);
   block19 = new Block(450, 80);
+
+  ball = Bodies.circle(100, 200, 20);
+  World.add(world, ball);
+
+  anchor = { x: 100, y: 200 };
+
+  sling = new Slingshot(this.ball, anchor);
+  World.add(world, sling);
 }
+
 function draw() {
   background("#333333");
 
@@ -85,5 +95,15 @@ function draw() {
   block18.display();
   fill("#4169e1");
   block19.display();
+
+  ellipseMode(RADIUS);
+  ellipse(ball.position.x, ball.position.y, 20);
+  sling.display();
   drawSprites();
+}
+function mouseDragged() {
+  Body.setPosition(ball, { x: mouseX, y: mouseY });
+}
+function mouseReleased() {
+  sling.fly();
 }

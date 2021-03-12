@@ -1,9 +1,9 @@
 class Block {
   constructor(x, y) {
     var options = {
-      //   isStatic: true,
+      friction: 0.00001,
       restitution: 0.5,
-      friction: 0,
+      density: 0.001,
     };
     this.body = Bodies.rectangle(x, y, 50, 50, options);
     World.add(world, this.body);
